@@ -1,29 +1,28 @@
 import express from "express";
-import cors from "cors";
+import bodyParser from "body-parser";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Root route
+// Default route
 app.get("/", (req, res) => {
-  res.send("🚀 Automation Bridge is live. Use /automation to send data.");
+  res.send("✅ Server is running! Try /api/automation");
 });
 
 // Automation route
-app.post("/automation", (req, res) => {
+app.post("/api/automation", (req, res) => {
   const data = req.body;
-  console.log("Received automation data:", data);
+  console.log("Received data:", data);
+  
   res.json({
     success: true,
     message: "Automation data received successfully!",
-    received: data,
+    received: data
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
 });
