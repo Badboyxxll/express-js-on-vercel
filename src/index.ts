@@ -1,24 +1,16 @@
-export default function handler(req, res) {
-  if (req.method === "GET") {
-    return res.status(200).json({ status: "ok", uptime: Date.now() });
-  }
+import express from "express";
 
-  if (req.method === "POST") {
-    try {
-      const body = req.body;
-      return res.status(200).json({
-        success: true,
-        message: "Automation data received",
-        data: body
-      });
-    } catch (err) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid request",
-        detail: err.toString()
-      });
-    }
-  }
+const app = express();
+const port = process.env.PORT || 3000;
 
-  res.status(405).json({ error: "Method not allowed" });
-}
+app.get("/", (req, res) => {
+  res.send("Server is running! Try /api next.");
+});
+
+app.get("/api", (req, res) => {
+  res.json({ message: "✅ Express API is working on Vercel!" });
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
