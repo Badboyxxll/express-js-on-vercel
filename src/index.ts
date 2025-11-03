@@ -1,28 +1,29 @@
-import express from "express";
-import bodyParser from "body-parser";
-
+// index.js
+const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Default route
-app.get("/", (req, res) => {
-  res.send("✅ Server is running! Try /api/automation");
+// root route
+app.get('/', (req, res) => {
+  res.send('Server is running — try /api or /api/automation');
 });
 
-// Automation route
-app.post("/api/automation", (req, res) => {
-  const data = req.body;
-  console.log("Received data:", data);
-  
+// old sample route
+app.get('/api', (req, res) => {
+  res.json({ message: 'Hello from the Express API!' });
+});
+
+// ✅ new working automation endpoint
+app.post('/api/automation', (req, res) => {
   res.json({
     success: true,
-    message: "Automation data received successfully!",
-    received: data
+    message: 'Automation endpoint is working!',
+    received: req.body || null
   });
 });
 
-app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
